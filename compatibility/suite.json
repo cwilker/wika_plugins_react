@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 1,
+  "consumer": "plugin",
+  "packageDirectory": ".",
+  "requiredEnv": [],
+  "steps": [
+    {
+      "name": "Typecheck",
+      "command": [
+        "npm",
+        "run",
+        "typecheck"
+      ]
+    },
+    {
+      "name": "Core and component tests",
+      "command": [
+        "npm",
+        "test",
+        "--",
+        "--exclude",
+        "packages/core/tests/live.test.ts"
+      ]
+    },
+    {
+      "name": "Build packages and demo",
+      "command": [
+        "npm",
+        "run",
+        "build"
+      ]
+    },
+    {
+      "name": "Real core signer and finality",
+      "command": [
+        "npm",
+        "run",
+        "test:live"
+      ]
+    },
+    {
+      "name": "Funded safe claims, verifier restart, replacement and historical withdrawal",
+      "command": [
+        "node",
+        "compatibility/claims.mjs"
+      ],
+      "timeoutMs": 420000
+    },
+    {
+      "name": "Registered host referrals, payouts, economic changes and receipt recovery",
+      "command": [
+        "node",
+        "compatibility/referrals-live.mjs"
+      ],
+      "timeoutMs": 600000
+    }
+  ]
+}

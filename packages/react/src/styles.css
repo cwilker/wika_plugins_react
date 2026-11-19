@@ -1,0 +1,112 @@
+.wika-like {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  font:
+    400 1rem/1.5 system-ui,
+    sans-serif;
+  color: #172e31;
+}
+.wika-like .wika-like__count {
+  font-size: 0.875rem;
+}
+.wika-like button {
+  font: inherit;
+  cursor: pointer;
+  border: 1px solid #12665d;
+  border-radius: 0.5rem;
+  padding: 0.6rem 1rem;
+  color: white;
+  background: #12665d;
+}
+.wika-like button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+.wika-like button:focus-visible,
+.wika-like input:focus-visible,
+.wika-like select:focus-visible {
+  outline: 3px solid #bd751c;
+  outline-offset: 3px;
+}
+.wika-like .wika-like__dialog {
+  color: #172e31;
+  background: #fff;
+  font: inherit;
+  border: 1px solid #b6c9c5;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  width: min(28rem, calc(100vw - 4rem));
+  max-height: calc(100dvh - 5rem);
+  overflow: auto;
+  box-shadow: 0 1rem 4rem #0003;
+}
+.wika-like .wika-like__dialog::backdrop {
+  background: #071d26aa;
+}
+.wika-like .wika-like__heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.wika-like h2 {
+  font-size: 1.3rem;
+  margin: 0;
+}
+.wika-like .wika-like__heading button,
+.wika-like .wika-like__secondary {
+  background: transparent;
+  color: #12665d;
+}
+.wika-like .wika-like__heading button {
+  padding: 0.2rem 0.7rem;
+  font-size: 1.4rem;
+}
+.wika-like .wika-like__url,
+.wika-like .wika-like__hash {
+  overflow-wrap: anywhere;
+  font-size: 0.85rem;
+}
+.wika-like .wika-like__network {
+  font-size: 0.9rem;
+}
+.wika-like label {
+  display: block;
+  font-weight: 600;
+  margin: 1rem 0 0.35rem;
+}
+.wika-like input,
+.wika-like select {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 0.65rem;
+  margin-bottom: 0.75rem;
+  border: 1px solid #7b9790;
+  border-radius: 0.4rem;
+  font: inherit;
+  color: #172e31;
+  background: #fff;
+}
+.wika-like dl {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.4rem;
+  font-size: 0.9rem;
+}
+.wika-like dd {
+  text-align: right;
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+.wika-like [role="alert"] {
+  color: #a12525;
+}
+
+.wika-claim { padding: 1.25rem; border: 1px solid #cbd5d1; border-radius: .75rem; max-width: 48rem; line-height: 1.5; }
+.wika-claim code { overflow-wrap: anywhere; }
+.wika-claim textarea { display: block; box-sizing: border-box; width: 100%; min-height: 8rem; margin-block: .5rem; font: .8rem monospace; }
+.wika-claim button { margin: .3rem .6rem .3rem 0; }
+.wika-claim aside, .wika-claim [aria-label="Transaction quote"] { padding: 1rem; margin-block: 1rem; background: #fff4d6; border-radius: .5rem; }
+
+.wika-economics{min-width:0;border:1px solid var(--wika-border,#dce5ed);border-radius:12px;padding:14px;margin:16px 0}.wika-economics label{display:block;margin:8px 0}.wika-economics input:not([type=checkbox]),.wika-economics select{display:block;width:100%;max-width:260px;box-sizing:border-box;padding:8px;border:1px solid #97a6b5;border-radius:6px;background:transparent;color:inherit}.wika-economics p{overflow-wrap:anywhere}.wika-economics input[type=checkbox]{margin-right:8px}

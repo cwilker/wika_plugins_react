@@ -1,0 +1,29 @@
+name: Node compatibility
+
+on:
+  pull_request:
+  push:
+  workflow_dispatch:
+    inputs:
+      node_ref:
+        description: Node branch, tag, or SHA to test
+        type: string
+        default: polkadot-sdk-upgrade
+
+permissions:
+  contents: read
+
+concurrency:
+  group: node-compatibility-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  compatibility:
+    uses: randombishop/wika_node/.github/workflows/consumer-compatibility.yml@polkadot-sdk-upgrade
+    with:
+      consumer: plugin
+      consumer_repository: ${{ github.event.pull_request.head.repo.full_name || github.repository }}
+      consumer_ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      consumer_package_directory: .
+      node_repository: randombishop/wika_node
+      node_ref: ${{ inputs.node_ref || 'polkadot-sdk-upgrade' }}

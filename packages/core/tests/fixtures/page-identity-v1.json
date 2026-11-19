@@ -1,0 +1,185 @@
+{
+  "version": 1,
+  "cases": [
+    {
+      "input": "HTTPS://Example.COM:443",
+      "expected": "https://example.com/"
+    },
+    {
+      "input": "http://Example.com:80/a#x",
+      "expected": "http://example.com/a"
+    },
+    {
+      "input": "https://example.com/a/./b/../c",
+      "expected": "https://example.com/a/c"
+    },
+    {
+      "input": "https://example.com/a/..",
+      "expected": "https://example.com/"
+    },
+    {
+      "input": "https://example.com/../../a",
+      "expected": "https://example.com/a"
+    },
+    {
+      "input": "https://example.com/a//../b",
+      "expected": "https://example.com/a/b"
+    },
+    {
+      "input": "https://example.com/a//b",
+      "expected": "https://example.com/a//b"
+    },
+    {
+      "input": "https://example.com?a=1&a=2",
+      "expected": "https://example.com/?a=1&a=2"
+    },
+    {
+      "input": "https://example.com/?b=2&a=1&utm_source=x",
+      "expected": "https://example.com/?b=2&a=1&utm_source=x"
+    },
+    {
+      "input": "https://example.com/?",
+      "expected": "https://example.com/?"
+    },
+    {
+      "input": "https://example.com/A%2fb?q=%2F",
+      "expected": "https://example.com/A%2fb?q=%2F"
+    },
+    {
+      "input": "https://example.com/a/",
+      "expected": "https://example.com/a/"
+    },
+    {
+      "input": "https://example.com/a#comments",
+      "expected": "https://example.com/a"
+    },
+    {
+      "input": "https://www.example.com/",
+      "expected": "https://www.example.com/"
+    },
+    {
+      "input": "https://xn--bcher-kva.example/%C3%A9",
+      "expected": "https://xn--bcher-kva.example/%C3%A9"
+    },
+    {
+      "input": "https://example.com:8443/",
+      "expected": "https://example.com:8443/"
+    },
+    {
+      "input": "http://example.com/",
+      "expected": "http://example.com/"
+    },
+    {
+      "input": "https://8.8.8.8/",
+      "expected": "https://8.8.8.8/"
+    },
+    {
+      "input": "https://127.0.0.1/",
+      "expected": "https://127.0.0.1/"
+    },
+    {
+      "input": "",
+      "expected": null
+    },
+    {
+      "input": " https://example.com",
+      "expected": null
+    },
+    {
+      "input": "https://example.com/\n",
+      "expected": null
+    },
+    {
+      "input": "ftp://example.com/",
+      "expected": null
+    },
+    {
+      "input": "https://u:p@example.com/",
+      "expected": null
+    },
+    {
+      "input": "https://example.com\\@evil.com/",
+      "expected": null
+    },
+    {
+      "input": "https://example.com./",
+      "expected": null
+    },
+    {
+      "input": "https://-foo.example/",
+      "expected": null
+    },
+    {
+      "input": "https://a..example/",
+      "expected": null
+    },
+    {
+      "input": "https://example.com:0443/",
+      "expected": null
+    },
+    {
+      "input": "https://example.com:0/",
+      "expected": null
+    },
+    {
+      "input": "https://example.com:65536/",
+      "expected": null
+    },
+    {
+      "input": "https://example.com:abc/",
+      "expected": null
+    },
+    {
+      "input": "https://bücher.example/",
+      "expected": null
+    },
+    {
+      "input": "https://example.com/é",
+      "expected": null
+    },
+    {
+      "input": "https://example.com/%",
+      "expected": null
+    },
+    {
+      "input": "https://example.com/%xy",
+      "expected": null
+    },
+    {
+      "input": "https://example.com/%2e/a",
+      "expected": null
+    },
+    {
+      "input": "https://example.com/a/.%2E/b",
+      "expected": null
+    },
+    {
+      "input": "https://[::1]/",
+      "expected": null
+    },
+    {
+      "input": "https://2130706433/",
+      "expected": null
+    },
+    {
+      "input": "https://127.1/",
+      "expected": null
+    },
+    {
+      "input": "https://0177.0.0.1/",
+      "expected": null
+    },
+    {
+      "input": "https://0x7f000001/",
+      "expected": null
+    },
+    {
+      "input": "https://example.com/\"x",
+      "expected": null
+    },
+    {
+      "input": "https://example.com/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "expected": null
+    }
+  ]
+}

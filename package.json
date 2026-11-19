@@ -1,49 +1,44 @@
 {
-  "name": "app",
-  "version": "0.1.0",
-  "homepage": "https://app.wika.network/",
+  "name": "wika-plugins",
   "private": true,
-  "dependencies": {
-    "@polkadot/api": "^4.17.1",
-    "@polkadot/extension-dapp": "^0.38.8",
-    "@polkadot/react-identicon": "^0.83.1",
-    "@polkadot/util-crypto": "^6.11.1",
-    "@testing-library/jest-dom": "^5.11.4",
-    "@testing-library/react": "^11.1.0",
-    "@testing-library/user-event": "^12.1.10",
-    "react": "^17.0.2",
-    "react-cssfx-loading": "^1.0.3",
-    "react-dom": "^17.0.2",
-    "react-scripts": "4.0.3",
-    "web-vitals": "^1.0.1"
+  "version": "0.1.0",
+  "type": "module",
+  "workspaces": [
+    "packages/*",
+    "examples/*"
+  ],
+  "engines": {
+    "node": "^22.12.0 || ^24.0.0 || >=26.0.0"
   },
   "scripts": {
-    "start": "PORT=3015 react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+    "build": "npm run build -w @wika/core && npm run build -w @wika/react && npm run build -w @wika/demo && npm run build -w @wika/owners",
+    "dev": "npm run build -w @wika/core && npm run build -w @wika/react && npm run dev -w @wika/demo",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:live": "vitest run packages/core/tests/live.test.ts",
+    "check": "npm run typecheck && npm test && npm run build",
+    "test:compatibility": "node ./compatibility/run.mjs",
+    "dev:owners": "npm run build -w @wika/core && npm run build -w @wika/react && npm run dev -w @wika/owners",
+    "test:portfolio-indexer": "npm run build -w @wika/core && node compatibility/portfolio-indexer.mjs",
+    "test:portfolio-browser": "node compatibility/portfolio-browser.mjs",
+    "test:portfolio-live": "node compatibility/portfolio-live.mjs",
+    "test:referrals-live": "npm run build -w @wika/core && node compatibility/referrals-live.mjs",
+    "test:economics-live": "npm run build -w @wika/core && node compatibility/economics-live.mjs",
+    "test:economics-browser": "node compatibility/economics-browser.mjs"
   },
   "devDependencies": {
-    "gh-pages": "^3.2.3"
+    "@testing-library/react": "16.3.0",
+    "@testing-library/user-event": "14.6.1",
+    "@types/node": "22.19.0",
+    "@types/react": "18.3.27",
+    "@types/react-dom": "18.3.7",
+    "happy-dom": "21.0.4",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "tsup": "8.5.0",
+    "typescript": "5.9.3",
+    "vite": "8.3.8",
+    "vitest": "5.1.0",
+    "@polkadot/util-crypto": "14.0.3"
   }
 }

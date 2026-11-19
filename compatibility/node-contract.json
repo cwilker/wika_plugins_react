@@ -1,0 +1,1439 @@
+{
+  "schemaVersion": 1,
+  "consumer": "plugin (runtime 404 page economics development baseline)",
+  "description": "Core/React likes and safe claims: exact metadata, shared proof encoding, funded escrow and signer/finality behavior.",
+  "requirements": {
+    "calls": {
+      "likes.like": {
+        "fields": [
+          {
+            "name": "url",
+            "type": "Bytes"
+          },
+          {
+            "name": "url_ref",
+            "type": "Bytes"
+          },
+          {
+            "name": "num_likes",
+            "type": "u32"
+          }
+        ]
+      },
+      "owners.claimPage": {
+        "fields": [
+          {
+            "name": "proof",
+            "type": "Bytes"
+          }
+        ]
+      },
+      "owners.verifyWithdrawal": {
+        "fields": [
+          {
+            "name": "url",
+            "type": "Bytes"
+          },
+          {
+            "name": "period",
+            "type": "u64"
+          }
+        ]
+      },
+      "owners.withdrawRewards": {
+        "fields": [
+          {
+            "name": "url",
+            "type": "Bytes"
+          },
+          {
+            "name": "period",
+            "type": "u64"
+          },
+          {
+            "name": "amount",
+            "type": "u128"
+          }
+        ]
+      },
+      "owners.finalizeReplacement": {
+        "fields": [
+          {
+            "name": "url",
+            "type": "Bytes"
+          },
+          {
+            "name": "id",
+            "type": {
+              "array": {
+                "length": 32,
+                "type": "u8"
+              }
+            }
+          }
+        ]
+      },
+      "owners.approveReplacement": {
+        "fields": [
+          {
+            "name": "url",
+            "type": "Bytes"
+          },
+          {
+            "name": "id",
+            "type": {
+              "array": {
+                "length": 32,
+                "type": "u8"
+              }
+            }
+          }
+        ]
+      },
+      "owners.objectReplacement": {
+        "fields": [
+          {
+            "name": "url",
+            "type": "Bytes"
+          },
+          {
+            "name": "id",
+            "type": {
+              "array": {
+                "length": 32,
+                "type": "u8"
+              }
+            }
+          }
+        ]
+      },
+      "owners.cancelReplacement": {
+        "fields": [
+          {
+            "name": "url",
+            "type": "Bytes"
+          },
+          {
+            "name": "id",
+            "type": {
+              "array": {
+                "length": 32,
+                "type": "u8"
+              }
+            }
+          }
+        ]
+      },
+      "owners.expireReplacement": {
+        "fields": [
+          {
+            "name": "url",
+            "type": "Bytes"
+          }
+        ]
+      },
+      "owners.retryVerification": {
+        "fields": [
+          {
+            "name": "url",
+            "type": "Bytes"
+          }
+        ]
+      },
+      "likes.authorizeHost": {
+        "fields": [
+          {
+            "name": "source",
+            "type": "Bytes"
+          },
+          {
+            "name": "public_key",
+            "type": {
+              "array": {
+                "length": 32,
+                "type": "u8"
+              }
+            }
+          }
+        ]
+      },
+      "likes.revokeHost": {
+        "fields": [
+          {
+            "name": "source",
+            "type": "Bytes"
+          },
+          {
+            "name": "authorization_id",
+            "type": "u64"
+          }
+        ]
+      },
+      "likes.likeWithReferral": {
+        "fields": [
+          {
+            "name": "payload",
+            "type": {
+              "struct": {
+                "domain": {
+                  "array": {
+                    "length": 18,
+                    "type": "u8"
+                  }
+                },
+                "version": "u16",
+                "genesis_hash": {
+                  "array": {
+                    "length": 32,
+                    "type": "u8"
+                  }
+                },
+                "source_page": "Bytes",
+                "source_period": "u64",
+                "authorization_id": "u64",
+                "target_page": "Bytes",
+                "payer": "AccountId32",
+                "count": "u32",
+                "request_id": {
+                  "array": {
+                    "length": 32,
+                    "type": "u8"
+                  }
+                },
+                "issued_at": "u64",
+                "expires_at": "u64",
+                "terms_version": "u16",
+                "terms_hash": {
+                  "array": {
+                    "length": 32,
+                    "type": "u8"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "name": "public_key",
+            "type": {
+              "array": {
+                "length": 32,
+                "type": "u8"
+              }
+            }
+          },
+          {
+            "name": "signature",
+            "type": {
+              "array": {
+                "length": 64,
+                "type": "u8"
+              }
+            }
+          }
+        ]
+      },
+      "likes.likeWithTerms": {
+        "fields": [
+          {
+            "name": "target",
+            "type": "Bytes"
+          },
+          {
+            "name": "count",
+            "type": "u32"
+          },
+          {
+            "name": "terms_version",
+            "type": "u16"
+          },
+          {
+            "name": "terms_hash",
+            "type": {
+              "array": {
+                "length": 32,
+                "type": "u8"
+              }
+            }
+          }
+        ]
+      },
+      "likes.configurePagePolicy": {
+        "fields": [
+          {
+            "name": "page",
+            "type": "Bytes"
+          },
+          {
+            "name": "period",
+            "type": "u64"
+          },
+          {
+            "name": "selection",
+            "type": {
+              "struct": {
+                "owner_bps": "u16",
+                "supporter_bps": "u16",
+                "referral_bps": "u16",
+                "ruleset": "u32",
+                "expected_revision": "u64",
+                "expected_hash": {
+                  "array": {
+                    "length": 32,
+                    "type": "u8"
+                  }
+                },
+                "inherit_if_changed": "bool"
+              }
+            }
+          }
+        ]
+      },
+      "likes.scheduleEconomics": {
+        "fields": [
+          {
+            "name": "boundary",
+            "type": "u32"
+          },
+          {
+            "name": "rules",
+            "type": {
+              "struct": {
+                "version": "u32",
+                "owner_min": "u16",
+                "owner_max": "u16",
+                "supporter_min": "u16",
+                "supporter_max": "u16",
+                "referral_min": "u16",
+                "referral_max": "u16",
+                "protocol_bps": "u16",
+                "minimum_price": "u128",
+                "treasury": "AccountId32"
+              }
+            }
+          },
+          {
+            "name": "owner_bps",
+            "type": "u16"
+          },
+          {
+            "name": "supporter_bps",
+            "type": "u16"
+          },
+          {
+            "name": "referral_bps",
+            "type": "u16"
+          },
+          {
+            "name": "rounds",
+            "type": "u8"
+          }
+        ]
+      },
+      "likes.publishDefault": {
+        "fields": [
+          {
+            "name": "owner_bps",
+            "type": "u16"
+          },
+          {
+            "name": "supporter_bps",
+            "type": "u16"
+          },
+          {
+            "name": "referral_bps",
+            "type": "u16"
+          }
+        ]
+      },
+      "owners.claimPageWithPolicy": {
+        "fields": [
+          {
+            "name": "proof",
+            "type": "Bytes"
+          },
+          {
+            "name": "selection",
+            "type": {
+              "struct": {
+                "owner_bps": "u16",
+                "supporter_bps": "u16",
+                "referral_bps": "u16",
+                "ruleset": "u32",
+                "expected_revision": "u64",
+                "expected_hash": {
+                  "array": {
+                    "length": 32,
+                    "type": "u8"
+                  }
+                },
+                "inherit_if_changed": "bool"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "storage": {
+      "likes.likePrice": {
+        "modifier": "Default",
+        "keys": [],
+        "value": "u128"
+      },
+      "likes.maxLikes": {
+        "modifier": "Default",
+        "keys": [],
+        "value": "u32"
+      },
+      "likes.urls": {
+        "modifier": "Optional",
+        "keys": [
+          "Bytes"
+        ],
+        "value": {
+          "tuple": [
+            "u64",
+            "AccountId32",
+            "AccountId32"
+          ]
+        }
+      },
+      "likes.likes": {
+        "modifier": "Optional",
+        "keys": [
+          "AccountId32",
+          "Bytes"
+        ],
+        "value": {
+          "tuple": [
+            "u64",
+            "u32",
+            "u32",
+            "AccountId32"
+          ]
+        }
+      },
+      "owners.owners": {
+        "modifier": "Optional",
+        "keys": [
+          "Bytes"
+        ],
+        "value": "AccountId32"
+      },
+      "system.account": {
+        "modifier": "Default",
+        "keys": [
+          "AccountId32"
+        ],
+        "value": {
+          "struct": {
+            "data": {
+              "struct": {
+                "free": "u128",
+                "frozen": "u128"
+              }
+            }
+          }
+        }
+      },
+      "timestamp.now": {
+        "modifier": "Default",
+        "keys": [],
+        "hashers": [],
+        "value": "u64"
+      },
+      "owners.requestPrice": {
+        "modifier": "Default",
+        "keys": [],
+        "hashers": [],
+        "value": "u128"
+      },
+      "owners.currentPeriod": {
+        "modifier": "Optional",
+        "keys": [
+          "Bytes"
+        ],
+        "hashers": [
+          "Blake2_128Concat"
+        ],
+        "value": "u64"
+      },
+      "owners.periods": {
+        "modifier": "Optional",
+        "keys": [
+          "Bytes",
+          "u64"
+        ],
+        "hashers": [
+          "Blake2_128Concat",
+          "Twox64Concat"
+        ],
+        "value": {
+          "struct": {
+            "owner": "AccountId32",
+            "started_at": "u64",
+            "started_block": "u32",
+            "started_event_index": "u32",
+            "ended_at": {
+              "option": "u64"
+            },
+            "ended_block": {
+              "option": "u32"
+            },
+            "ended_event_index": {
+              "option": "u32"
+            },
+            "balance": "u128",
+            "proof": "Bytes",
+            "verified_at": {
+              "option": "u64"
+            }
+          }
+        }
+      },
+      "owners.unclaimedRewards": {
+        "modifier": "Default",
+        "keys": [
+          "Bytes"
+        ],
+        "hashers": [
+          "Blake2_128Concat"
+        ],
+        "value": "u128"
+      },
+      "owners.claimChecks": {
+        "modifier": "Optional",
+        "keys": [
+          "Bytes"
+        ],
+        "hashers": [
+          "Blake2_128Concat"
+        ],
+        "value": {
+          "struct": {
+            "purpose": {
+              "variant": {
+                "Initial": {
+                  "struct": {}
+                },
+                "Refresh": {
+                  "tuple": [
+                    "u64"
+                  ]
+                },
+                "ReplacementInitial": {
+                  "struct": {}
+                },
+                "ReplacementFinal": {
+                  "tuple": [
+                    {
+                      "array": {
+                        "length": 32,
+                        "type": "u8"
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            "proof": "Bytes",
+            "expires_at": "u64",
+            "retries_remaining": "u8"
+          }
+        }
+      },
+      "owners.pendingReplacements": {
+        "modifier": "Optional",
+        "keys": [
+          "Bytes"
+        ],
+        "hashers": [
+          "Blake2_128Concat"
+        ],
+        "value": {
+          "struct": {
+            "id": {
+              "array": {
+                "length": 32,
+                "type": "u8"
+              }
+            },
+            "candidate": "AccountId32",
+            "previous_period": "u64",
+            "proof": "Bytes",
+            "opened_at": "u64",
+            "earliest_activation": "u64",
+            "deadline": "u64",
+            "bond": "u128",
+            "owner_approved": "bool",
+            "candidate_approved": "bool",
+            "objection": "bool"
+          }
+        }
+      },
+      "owners.retryCredits": {
+        "modifier": "Optional",
+        "keys": [
+          "Bytes"
+        ],
+        "hashers": [
+          "Blake2_128Concat"
+        ],
+        "value": {
+          "struct": {
+            "account": "AccountId32",
+            "check": {
+              "struct": {
+                "purpose": {
+                  "variant": {
+                    "Initial": {
+                      "struct": {}
+                    },
+                    "Refresh": {
+                      "tuple": [
+                        "u64"
+                      ]
+                    },
+                    "ReplacementInitial": {
+                      "struct": {}
+                    },
+                    "ReplacementFinal": {
+                      "tuple": [
+                        {
+                          "array": {
+                            "length": 32,
+                            "type": "u8"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                },
+                "proof": "Bytes",
+                "expires_at": "u64",
+                "retries_remaining": "u8"
+              }
+            }
+          }
+        }
+      },
+      "owners.replacementBond": {
+        "modifier": "Default",
+        "keys": [],
+        "hashers": [],
+        "value": "u128"
+      },
+      "owners.lastClaimResults": {
+        "modifier": "Optional",
+        "keys": [
+          "Bytes"
+        ],
+        "hashers": [
+          "Blake2_128Concat"
+        ],
+        "value": {
+          "struct": {
+            "account": "AccountId32",
+            "purpose": {
+              "variant": {
+                "Initial": {
+                  "struct": {}
+                },
+                "Refresh": {
+                  "tuple": [
+                    "u64"
+                  ]
+                },
+                "ReplacementInitial": {
+                  "struct": {}
+                },
+                "ReplacementFinal": {
+                  "tuple": [
+                    {
+                      "array": {
+                        "length": 32,
+                        "type": "u8"
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            "outcome": {
+              "variant": {
+                "Approved": {
+                  "struct": {}
+                },
+                "Expired": {
+                  "struct": {}
+                },
+                "InvalidProof": {
+                  "struct": {}
+                },
+                "Inconclusive": {
+                  "struct": {}
+                }
+              }
+            },
+            "checked_at": "u64"
+          }
+        }
+      },
+      "likes.hostKeys": {
+        "modifier": "Default",
+        "keys": [
+          "Bytes"
+        ],
+        "hashers": [
+          "Blake2_128Concat"
+        ],
+        "value": {
+          "sequence": {
+            "tuple": [
+              "u64",
+              "u64",
+              {
+                "array": {
+                  "length": 32,
+                  "type": "u8"
+                }
+              }
+            ]
+          }
+        }
+      },
+      "likes.usedRequests": {
+        "modifier": "Optional",
+        "keys": [
+          "u64",
+          {
+            "array": {
+              "length": 32,
+              "type": "u8"
+            }
+          }
+        ],
+        "hashers": [
+          "Twox64Concat",
+          "Blake2_128Concat"
+        ],
+        "value": "u64"
+      },
+      "likes.economicRules": {
+        "modifier": "Optional",
+        "keys": [],
+        "hashers": [],
+        "value": {
+          "struct": {
+            "version": "u32",
+            "owner_min": "u16",
+            "owner_max": "u16",
+            "supporter_min": "u16",
+            "supporter_max": "u16",
+            "referral_min": "u16",
+            "referral_max": "u16",
+            "protocol_bps": "u16",
+            "minimum_price": "u128",
+            "treasury": "AccountId32"
+          }
+        }
+      },
+      "likes.defaultProfile": {
+        "modifier": "Optional",
+        "keys": [],
+        "hashers": [],
+        "value": {
+          "struct": {
+            "ruleset": "u32",
+            "revision": "u64",
+            "model": "u8",
+            "owner_bps": "u16",
+            "supporter_bps": "u16",
+            "referral_bps": "u16",
+            "protocol_bps": "u16",
+            "rounds": "u8",
+            "treasury": "AccountId32",
+            "configurator": {
+              "option": "AccountId32"
+            },
+            "owner_period": {
+              "option": "u64"
+            }
+          }
+        }
+      },
+      "likes.legacyProfile": {
+        "modifier": "Optional",
+        "keys": [],
+        "hashers": [],
+        "value": {
+          "struct": {
+            "ruleset": "u32",
+            "revision": "u64",
+            "model": "u8",
+            "owner_bps": "u16",
+            "supporter_bps": "u16",
+            "referral_bps": "u16",
+            "protocol_bps": "u16",
+            "rounds": "u8",
+            "treasury": "AccountId32",
+            "configurator": {
+              "option": "AccountId32"
+            },
+            "owner_period": {
+              "option": "u64"
+            }
+          }
+        }
+      },
+      "likes.economicsBoundary": {
+        "modifier": "Optional",
+        "keys": [],
+        "hashers": [],
+        "value": "u32"
+      },
+      "likes.economicsActive": {
+        "modifier": "Default",
+        "keys": [],
+        "hashers": [],
+        "value": "bool"
+      },
+      "likes.pagePolicies": {
+        "modifier": "Optional",
+        "keys": [
+          "Bytes"
+        ],
+        "hashers": [
+          "Blake2_128Concat"
+        ],
+        "value": {
+          "struct": {
+            "ruleset": "u32",
+            "revision": "u64",
+            "model": "u8",
+            "owner_bps": "u16",
+            "supporter_bps": "u16",
+            "referral_bps": "u16",
+            "protocol_bps": "u16",
+            "rounds": "u8",
+            "treasury": "AccountId32",
+            "configurator": {
+              "option": "AccountId32"
+            },
+            "owner_period": {
+              "option": "u64"
+            }
+          }
+        }
+      },
+      "likes.policyLocks": {
+        "modifier": "Optional",
+        "keys": [
+          "Bytes"
+        ],
+        "hashers": [
+          "Blake2_128Concat"
+        ],
+        "value": "u32"
+      },
+      "owners.policyIntents": {
+        "modifier": "Optional",
+        "keys": [
+          "Bytes"
+        ],
+        "hashers": [
+          "Blake2_128Concat"
+        ],
+        "value": {
+          "struct": {
+            "attempt": "u64",
+            "slot": "u16",
+            "account": "AccountId32",
+            "proof_digest": {
+              "array": {
+                "length": 32,
+                "type": "u8"
+              }
+            },
+            "selection": {
+              "struct": {
+                "owner_bps": "u16",
+                "supporter_bps": "u16",
+                "referral_bps": "u16",
+                "ruleset": "u32",
+                "expected_revision": "u64",
+                "expected_hash": {
+                  "array": {
+                    "length": 32,
+                    "type": "u8"
+                  }
+                },
+                "inherit_if_changed": "bool"
+              }
+            },
+            "expires_at": "u64"
+          }
+        }
+      },
+      "owners.lastPolicyOutcomes": {
+        "modifier": "Optional",
+        "keys": [
+          "Bytes"
+        ],
+        "hashers": [
+          "Blake2_128Concat"
+        ],
+        "value": {
+          "struct": {
+            "attempt": "u64",
+            "account": "AccountId32",
+            "applied": "bool",
+            "reason": {
+              "variant": {
+                "Applied": {
+                  "struct": {}
+                },
+                "Locked": {
+                  "struct": {}
+                },
+                "TermsChanged": {
+                  "struct": {}
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "constants": {
+      "likes.maxLengthURL": {
+        "type": "u32",
+        "value": 255
+      },
+      "balances.existentialDeposit": {
+        "type": "u128"
+      }
+    },
+    "events": {
+      "likes.Liked": {
+        "fields": [
+          {
+            "name": "who",
+            "type": "AccountId32"
+          },
+          {
+            "name": "url",
+            "type": "Bytes"
+          },
+          {
+            "name": "num_likes",
+            "type": "u32"
+          }
+        ]
+      },
+      "system.ExtrinsicSuccess": {
+        "fields": [
+          {
+            "name": "dispatch_info",
+            "type": "*"
+          }
+        ]
+      },
+      "system.ExtrinsicFailed": {
+        "fields": [
+          {
+            "name": "dispatch_error",
+            "type": "DispatchError"
+          },
+          {
+            "name": "dispatch_info",
+            "type": "*"
+          }
+        ]
+      },
+      "likes.HostAuthorized": {
+        "fields": [
+          {
+            "name": "source",
+            "type": "Bytes"
+          },
+          {
+            "name": "period",
+            "type": "u64"
+          },
+          {
+            "name": "owner",
+            "type": "AccountId32"
+          },
+          {
+            "name": "public_key",
+            "type": {
+              "array": {
+                "length": 32,
+                "type": "u8"
+              }
+            }
+          },
+          {
+            "name": "authorization_id",
+            "type": "u64"
+          }
+        ]
+      },
+      "likes.HostRevoked": {
+        "fields": [
+          {
+            "name": "source",
+            "type": "Bytes"
+          },
+          {
+            "name": "period",
+            "type": "u64"
+          },
+          {
+            "name": "owner",
+            "type": "AccountId32"
+          },
+          {
+            "name": "public_key",
+            "type": {
+              "array": {
+                "length": 32,
+                "type": "u8"
+              }
+            }
+          },
+          {
+            "name": "authorization_id",
+            "type": "u64"
+          }
+        ]
+      },
+      "likes.ReferralPaid": {
+        "fields": [
+          {
+            "name": "version",
+            "type": "u16"
+          },
+          {
+            "name": "payer",
+            "type": "AccountId32"
+          },
+          {
+            "name": "target",
+            "type": "Bytes"
+          },
+          {
+            "name": "source",
+            "type": "Bytes"
+          },
+          {
+            "name": "source_period",
+            "type": "u64"
+          },
+          {
+            "name": "authorization_id",
+            "type": "u64"
+          },
+          {
+            "name": "request_id",
+            "type": {
+              "array": {
+                "length": 32,
+                "type": "u8"
+              }
+            }
+          },
+          {
+            "name": "recipient",
+            "type": "AccountId32"
+          },
+          {
+            "name": "amount",
+            "type": "u128"
+          },
+          {
+            "name": "count",
+            "type": "u32"
+          },
+          {
+            "name": "terms_version",
+            "type": "u16"
+          },
+          {
+            "name": "terms_hash",
+            "type": {
+              "array": {
+                "length": 32,
+                "type": "u8"
+              }
+            }
+          }
+        ]
+      },
+      "likes.EconomicsScheduled": {
+        "fields": [
+          {
+            "name": "boundary",
+            "type": "u32"
+          },
+          {
+            "name": "rules",
+            "type": {
+              "struct": {
+                "version": "u32",
+                "owner_min": "u16",
+                "owner_max": "u16",
+                "supporter_min": "u16",
+                "supporter_max": "u16",
+                "referral_min": "u16",
+                "referral_max": "u16",
+                "protocol_bps": "u16",
+                "minimum_price": "u128",
+                "treasury": "AccountId32"
+              }
+            }
+          },
+          {
+            "name": "profile",
+            "type": {
+              "struct": {
+                "ruleset": "u32",
+                "revision": "u64",
+                "model": "u8",
+                "owner_bps": "u16",
+                "supporter_bps": "u16",
+                "referral_bps": "u16",
+                "protocol_bps": "u16",
+                "rounds": "u8",
+                "treasury": "AccountId32",
+                "configurator": {
+                  "option": "AccountId32"
+                },
+                "owner_period": {
+                  "option": "u64"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "likes.EconomicsActivated": {
+        "fields": [
+          {
+            "name": "boundary",
+            "type": "u32"
+          },
+          {
+            "name": "legacy",
+            "type": {
+              "struct": {
+                "ruleset": "u32",
+                "revision": "u64",
+                "model": "u8",
+                "owner_bps": "u16",
+                "supporter_bps": "u16",
+                "referral_bps": "u16",
+                "protocol_bps": "u16",
+                "rounds": "u8",
+                "treasury": "AccountId32",
+                "configurator": {
+                  "option": "AccountId32"
+                },
+                "owner_period": {
+                  "option": "u64"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "likes.DefaultPublished": {
+        "fields": [
+          {
+            "name": "profile",
+            "type": {
+              "struct": {
+                "ruleset": "u32",
+                "revision": "u64",
+                "model": "u8",
+                "owner_bps": "u16",
+                "supporter_bps": "u16",
+                "referral_bps": "u16",
+                "protocol_bps": "u16",
+                "rounds": "u8",
+                "treasury": "AccountId32",
+                "configurator": {
+                  "option": "AccountId32"
+                },
+                "owner_period": {
+                  "option": "u64"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "likes.PolicyConfigured": {
+        "fields": [
+          {
+            "name": "page",
+            "type": "Bytes"
+          },
+          {
+            "name": "policy_hash",
+            "type": {
+              "array": {
+                "length": 32,
+                "type": "u8"
+              }
+            }
+          },
+          {
+            "name": "policy",
+            "type": {
+              "struct": {
+                "ruleset": "u32",
+                "revision": "u64",
+                "model": "u8",
+                "owner_bps": "u16",
+                "supporter_bps": "u16",
+                "referral_bps": "u16",
+                "protocol_bps": "u16",
+                "rounds": "u8",
+                "treasury": "AccountId32",
+                "configurator": {
+                  "option": "AccountId32"
+                },
+                "owner_period": {
+                  "option": "u64"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "likes.PolicyLocked": {
+        "fields": [
+          {
+            "name": "page",
+            "type": "Bytes"
+          },
+          {
+            "name": "policy_hash",
+            "type": {
+              "array": {
+                "length": 32,
+                "type": "u8"
+              }
+            }
+          },
+          {
+            "name": "revision",
+            "type": "u64"
+          }
+        ]
+      },
+      "likes.SupporterPaid": {
+        "fields": [
+          {
+            "name": "page",
+            "type": "Bytes"
+          },
+          {
+            "name": "payer",
+            "type": "AccountId32"
+          },
+          {
+            "name": "recipient",
+            "type": "AccountId32"
+          },
+          {
+            "name": "amount",
+            "type": "u128"
+          }
+        ]
+      },
+      "likes.PaymentDistribution": {
+        "fields": [
+          {
+            "name": "payer",
+            "type": "AccountId32"
+          },
+          {
+            "name": "target",
+            "type": "Bytes"
+          },
+          {
+            "name": "terms_hash",
+            "type": {
+              "array": {
+                "length": 32,
+                "type": "u8"
+              }
+            }
+          },
+          {
+            "name": "receipt",
+            "type": {
+              "struct": {
+                "version": "u16",
+                "policy_hash": {
+                  "array": {
+                    "length": 32,
+                    "type": "u8"
+                  }
+                },
+                "revision": "u64",
+                "model": "u8",
+                "gross": "u128",
+                "debit": "u128",
+                "retained": "u128",
+                "legacy_dust": "u128",
+                "owner_credit": "u128",
+                "supporter_budget": "u128",
+                "supporter_paid": "u128",
+                "supporter_fallback": "u128",
+                "referral_recipient": "AccountId32",
+                "referral_credit": "u128",
+                "referral_to_target": "bool",
+                "protocol_recipient": "AccountId32",
+                "protocol_credit": "u128"
+              }
+            }
+          }
+        ]
+      },
+      "owners.ClaimPolicyRequested": {
+        "fields": [
+          {
+            "name": "url",
+            "type": "Bytes"
+          },
+          {
+            "name": "attempt",
+            "type": "u64"
+          },
+          {
+            "name": "account",
+            "type": "AccountId32"
+          },
+          {
+            "name": "proof_digest",
+            "type": {
+              "array": {
+                "length": 32,
+                "type": "u8"
+              }
+            }
+          },
+          {
+            "name": "selection",
+            "type": {
+              "struct": {
+                "owner_bps": "u16",
+                "supporter_bps": "u16",
+                "referral_bps": "u16",
+                "ruleset": "u32",
+                "expected_revision": "u64",
+                "expected_hash": {
+                  "array": {
+                    "length": 32,
+                    "type": "u8"
+                  }
+                },
+                "inherit_if_changed": "bool"
+              }
+            }
+          }
+        ]
+      },
+      "owners.ClaimPolicyOutcome": {
+        "fields": [
+          {
+            "name": "url",
+            "type": "Bytes"
+          },
+          {
+            "name": "attempt",
+            "type": "u64"
+          },
+          {
+            "name": "account",
+            "type": "AccountId32"
+          },
+          {
+            "name": "applied",
+            "type": "bool"
+          },
+          {
+            "name": "reason",
+            "type": {
+              "variant": {
+                "Applied": {
+                  "struct": {}
+                },
+                "Locked": {
+                  "struct": {}
+                },
+                "TermsChanged": {
+                  "struct": {}
+                }
+              }
+            }
+          }
+        ]
+      }
+    },
+    "rpc": [
+      "state_getMetadata",
+      "state_getRuntimeVersion",
+      "chain_getBlockHash",
+      "chain_getHeader",
+      "system_chain",
+      "system_properties",
+      "state_getStorage",
+      "state_subscribeStorage",
+      "author_submitAndWatchExtrinsic",
+      "author_unwatchExtrinsic",
+      "system_accountNextIndex",
+      "state_call"
+    ],
+    "properties": {
+      "symbol": "WIKA",
+      "decimals": 12,
+      "ss58Prefix": 42
+    },
+    "extrinsic": {
+      "version": 4,
+      "signedExtensions": [
+        "AuthorizeCall",
+        "CheckNonZeroSender",
+        "CheckSpecVersion",
+        "CheckTxVersion",
+        "CheckGenesis",
+        "CheckMortality",
+        "CheckNonce",
+        "CheckWeight",
+        "ChargeTransactionPayment",
+        "CheckMetadataHash",
+        "WeightReclaim"
+      ]
+    },
+    "errors": {
+      "likes.SignedReferralRequired": {
+        "fields": []
+      },
+      "likes.TermsChanged": {
+        "fields": []
+      }
+    }
+  },
+  "behavior": [
+    "Exact URL bytes and UTF-8 length limit agree with the node.",
+    "A paid like finalizes, emits Liked, updates counts and queue membership.",
+    "Repeated likes are rejected while the account is queued.",
+    "Fee estimates and token metadata decode correctly; React interactions pass.",
+    "Signed host requests bind payer, exact page and quoted terms; unsigned referral credit is rejected after activation.",
+    "Owner-configured policies, bounded claim intent, economic terms v2, preserved legacy FIFO and exact distribution receipts."
+  ]
+}
